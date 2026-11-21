@@ -1,7 +1,7 @@
 ---
-title: "linear model from Web"
-author: "Your Name"
-date: "Put semester and year"
+title: "linear model 1980 cars"
+author: "Marisol Favela Renteria"
+date: "Fall 2026"
 output:
    html_document:
          toc: true
@@ -16,11 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 Read about the data from the website where it is staged.  
 
 Form three regression models; 
-  Model1 is SIMS~ARM, 
-  Model2 is SIMS~GRIP, and 
-  Model3 is SIMS~ARM+GRIP. 
+  Model1 is mpg~disp, 
+  Model2 is mge~hp, and 
+  Model3 is mpg~disp+hp. 
   
-For each model find a 95% prediction interval of SIMS given a value of 94  for GRIP and 88 for ARM. 
+For each model find a 95% prediction interval of the mpg given a value of 183 for disp GRIP and 250 for hp 
 
 After all three models have been constructed, compare Model1 with Model3 using anova. Document the comparison the markdown document, 
 
@@ -34,42 +34,69 @@ require(tidyverse)
 require(tigerstats)
 require(rgl)
 require(knitr)
-
+library(MASS)
 ```
 
 ```{r}
-data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_strength/data.txt",sep="",header=TRUE)  
+data(mtcars)
+myData = mtcars
 
 ```
 
-## Model 1 SIM~ARMS
+## Model 1 mpg ~ disp
 
 ### scatterplot
 
+```{r}
+plot(mpg~disp,data=mtcars,pch=19)
+```
+This scatter plot shows the relationship between displacement and miles per gallon, a negative correlation skewed to the right. As the displacement increases the miles per gallon  decreases.  
 ### Numerical results
+```{r}
+cor(mpg~disp,data=mtcars)
+```
 
-
+The correlation coefficient between mgp and disp is -0.85. As the car engines displacement increases the mpg decreases significantly. 
 ### Inferential  (Build model.1)
+```{r}
+model.1 <- lm(mpg~disp,data=mtcars)
+summary.lm(model.1)
+```
+For every unit increase in the cars displacement the cars mpg is predicted to decrease by approximately 0.041215 units. The model is significantly significant. 
 
 #### Predict at target point
+```{r}
 
+newdata=data.frame(disp=183,hp=250)
+predict(model.1,newdata)
+```
+predicted mpg 
 
-#### scatterplot with model fit
-  
+## Model 2 mgp~hp
 
-## Model 2 SIM~GRIP
-
-### Now add in scatterplot
-
-
-### Numerical results 
-
+```{r}
+plot(mpg~hp,data=mtcars,pch=19)
+```
+This scatter plot displays the strong negative relationship between the mpg and the hp.The data is right-skewed. As the cars hp increases, its mgp decreases. 
+### Numerical results 2
+```{r}
+cor(mtcars$mpg,mtcars$hp)
+```
+The correlation coefficient is -0.776 which meaans there is a strong linear relationship, as the horsepower increases the mpg decrease. 
 
 ### Inferential  (Build model.2)
-  
+```{r}
+model.2 <- lm(mpg~hp,data=mtcars)
+summary.lm(model.2)
+```
+For every 1 unit of hp you add the mpg drop by about 0.07 units.
 
 #### predict model.2 at target point
+```{r}
 
+predict(model.2,newdata)
+```
+For every cubic inch increase in engine size means you get about this much mpg (13.04179)
 #### now add the model fit to our plot for model.2
   
 
