@@ -1,7 +1,7 @@
 ---
-title: "linear model from Web"
-author: "Your Name"
-date: "Put semester and year"
+title: "linear model 1980 cars"
+author: "Marisol Favela Renteria"
+date: "Fall 2026"
 output:
    html_document:
          toc: true
@@ -16,11 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 Read about the data from the website where it is staged.  
 
 Form three regression models; 
-  Model1 is SIMS~ARM, 
-  Model2 is SIMS~GRIP, and 
-  Model3 is SIMS~ARM+GRIP. 
+  Model1 is mpg~disp, 
+  Model2 is mge~hp, and 
+  Model3 is mpg~disp+hp. 
   
-For each model find a 95% prediction interval of SIMS given a value of 94  for GRIP and 88 for ARM. 
+For each model find a 95% prediction interval of the mpg given a value of 183 for disp GRIP and 250 for hp 
 
 After all three models have been constructed, compare Model1 with Model3 using anova. Document the comparison the markdown document, 
 
@@ -34,18 +34,23 @@ require(tidyverse)
 require(tigerstats)
 require(rgl)
 require(knitr)
-
+library(MASS)
 ```
 
 ```{r}
-data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_strength/data.txt",sep="",header=TRUE)  
+data(mtcars)
+myData = mtcars
 
 ```
 
-## Model 1 SIM~ARMS
+## Model 1 mpg ~ disp
 
 ### scatterplot
 
+```{r}
+plot(mpg~disp,data=mtcars,pch=19)
+```
+This scatter plot shows the relationship between displacement and miles per gallon, a negative correlation skewed to the right. As the displacement increases the miles per gallon  decreases.  
 ### Numerical results
 
 
