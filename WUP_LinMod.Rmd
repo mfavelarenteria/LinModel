@@ -74,6 +74,7 @@ predicted mpg
 
 ## Model 2 mgp~hp
 
+###scattterplot
 ```{r}
 plot(mpg~hp,data=mtcars,pch=19)
 ```
@@ -93,29 +94,55 @@ For every 1 unit of hp you add the mpg drop by about 0.07 units.
 
 #### predict model.2 at target point
 ```{r}
-
+newdata=data.frame(disp=183,hp=250)
 predict(model.2,newdata)
 ```
 For every cubic inch increase in engine size means you get about this much mpg (13.04179)
-#### now add the model fit to our plot for model.2
-  
 
 
-## Model 3 SIM~ARM+GRIP
+# Model 3 :
 
-### Numerical results (cor)
+ mpg (miles per gallon) is the response (Y)
+ wt and disp are the predictors (X's)
 
-`
-  
-### Inferential  (Build 2-dimentional model.3)
+### graphical summary
+```{r}
+plot(mpg ~ wt+disp, data = mtcars, pch=19)
+grid()
+```
 
-#### predict model.3 at target point
-  
+The two scatterplots demonstrate similar correlations between a lower mpg and higher wt and disp
+### numerical summary
+no numerical summary for model 3 
+### model summary
+model3= lm(mpg ~ wt+disp, data = mtcars)
+model summary (coefficients, R², etc.), summarize the fit
 
-## Comparing nested models ANOVA Test
+```{r}
+model3= lm(mpg ~ wt+disp, data = mtcars)
+summary(model3)
+```
+ mpg (miles per gallon) is the response (Y)
+ wt (wt) and displacement (disp) are the predictors (X's)
+ 
+### predicted mpg
 
-### Model.1 vs Model.3
-### Model.2 vs Model.3
+```{r}
+newdata = data.frame(wt=3.050,disp=122)
+print(predict(model3, newdata, interval = 'predict'))
+```
+The predicted mpg is 23 if rounded up. Leaving the confidence interval between about 16 and 29.
+# anova: compare models 2 and 3
 
-## How do the models compare (Model.1 with model.2 in the anova results)?
+model3 <- lm(mpg ~ wt+disp, data = mtcars)
 
+model summary (coefficients, R², etc.)
+```{r}
+anova_result <- anova(model.2, model3)
+print(anova_result)
+```
+We reject the null hypothesis, the value is less than 0.5.
+
+
+# Discussion and Conculsions
+Displacement did not add any factors to the vehicle. The models showed that displacement added to the weight was just the same as the model with just weight. 
